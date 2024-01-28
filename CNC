@@ -1,0 +1,145 @@
+P1 : Program to implement password salting and hashing to create secure passwords.
+The primary goal of password hashing is to sccurc user passwords by converting them into a
+fixed -length string of
+charactcrs that is computationally difficult to revcrsc. This proccss hclps protcct uscr passwords casc of a data brcach wherc
+attackerS may gain access to the hashed values.
+Common Hashing Algorithms: Cryptographic hash functions like SHA-256 (Secure Hash Algorithm 256-bit) are commonly
+used for password hashing. These algorithms produce a fixed-size output (hash) regardless of the inpul size and are designed to be
+one-way functions, making it difficult to reverse-engincer the original input from the hash.
+
+import os
+import hashlib
+import secrets
+
+def generate_salt():
+    return secrets.token_bytes(16)
+
+def hash_password(password, salt):
+    hashed_password = hashlib.sha256(password.encode('utf-8') + salt).hexdigest()
+    return hashed_password
+
+def verify_password(entered_password, stored_password, salt):
+    entered_password_hash = hash_password(entered_password, salt)
+    return entered_password_hash == stored_password
+
+def main():
+    username = input("Enter your username: ")
+    password = input("Enter your password: ")
+    salt = generate_salt()
+    hashed_password = hash_password(password, salt)
+    stored_data = {
+    'username': username,'salt':
+    salt,
+    'hashed_password': hashed_password
+    }
+    print(f"User {username} registered successfully!")
+    login_username = input("Enter your username for login: ")
+    login_password = input("Enter your password for login: ")
+    stored_salt = stored_data.get('salt')
+    stored_hashed_password = stored_data.get('hashed_password')
+    if verify_password(login_password, stored_hashed_password, stored_salt):
+        print("Login successful!")
+    else:
+        print("Login failed. Invalid username or password.")
+        
+if __name__ == "__main__":
+    main()
+
+
+
+P4:_________________________________________________________
+from cryptography.fernet import Fernet
+
+def generate_key():
+    return Fernet.generate_key()
+    
+
+def encrypt_file(key, input_file):
+    cipher_suite = Fernet(key)
+    with open(input_file, 'rb') as f:
+        plaintext = f.read()
+    encrypted_data = cipher_suite.encrypt(plaintext)
+    return encrypted_data
+
+def decrypt_file(key, encrypted_data):
+    cipher_suite = Fernet(key)
+    print("\n")
+    decrypted_data = cipher_suite.decrypt(encrypted_data)
+    return decrypted_data
+
+def main():
+    while True:
+        print("==="*10)
+        print("AES File Encryption and Decryption")
+        print("1. Encrypt a file")
+        print("2. Decrypt a file")
+        choice = input("Enter your choice (1/2): ")
+        print("==="*10)
+
+        if choice == '1':
+            key = generate_key()
+            print("Key:")
+            print(key.decode())
+            input_file = input("Enter the name of the file to encrypt: ")
+            encrypted_data = encrypt_file(key, input_file)
+            print("Encrypted Text:")
+            print(encrypted_data.decode())
+            print("\n")
+
+        elif choice == '2':
+            key = input("Enter key: ")
+            encrypted_text = input("Enter the encrypted text: ")
+            decrypted_data = decrypt_file(key.encode(), encrypted_text.encode())
+            print("Decrypted Text:")
+            print(decrypted_data.decode())
+            print("\n")
+            
+        else:
+            print("Invalid choice. Please choose only given alternatives")
+    
+if __name__ == '__main__':
+    main()
+
+
+P5_________________________________________________________________________________________
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+import os
+def pad(data):
+    block_size = algorithms.AES.block_size // 8
+    remaining_bytes = block_size - (len(data) % block_size)
+    padding = remaining_bytes * bytes([remaining_bytes])
+    return data + padding
+
+def unpad(data):
+    padding_length = data[-1]
+    return data[:-padding_length]
+
+def encrypt_decrypt_ecb(key, data, mode):
+    data = pad(data)
+    cipher = Cipher(algorithms.AES(key), mode, backend=default_backend())
+    encryptor = cipher.encryptor()
+    ciphertext = encryptor.update(data) + encryptor.finalize()
+    decryptor = cipher.decryptor()
+    decrypted_data = unpad(decryptor.update(ciphertext) + decryptor.finalize())
+    return ciphertext, decrypted_data
+
+def main():
+    key = os.urandom(16) 
+    data = b'This is a sample message for encryption.' 
+    ecb_mode = modes.ECB()
+    ecb_ciphertext, ecb_decrypted_data = encrypt_decrypt_ecb(key, data, ecb_mode)
+    print(f"ECB Ciphertext: {ecb_ciphertext.hex()}")
+    print(f"ECB Decrypted Data: {ecb_decrypted_data.decode()}")
+
+if __name__ == "__main__":
+    main()
+
+
+P6__________________________________________________________________
+import hashlib
+result = hashlib.md5(b'Ismile')
+result1 = hashlib.md5(b'Esmile')
+print(result.digest())
+print("The byte equivalent of hash is : ", end ="")
+print(result1.digest())
