@@ -1,0 +1,249 @@
+Prac 1- One dimensional data using series and perform operations on it
+Series:
+The Pandas Series can be defined as a one-dimensional array that can store various data types.
+We can easily convert the list, tuple, and dictionary into series using the "series' method. The
+row labels of series are called the index. A Series cannot contain multiple columns. It has the
+following parameter:
+data: It can be any list, dictionary, or scalar value.
+index: The value ofthe index should be unique and hashable. It must be of the same
+length as data. If we do not pass any index, default np.arrange(n) will be used.
+Different Operations in Series:
+Mathematical operations
+Code:
+dtype: It rcfers to the data typc ofscrics.
+copy: It is used for copying the data.
+Sum
+Product
+Squarc Root
+Exponential
+Logarithm
+Statistical operations
+Minimum
+Maximum
+Mcan
+Median
+Standard Deviation
+Array manipulation
+Sorted array
+Reversed array
+Practical No. 1
+Unique value
+Reshaped data
+
+# practical 1 : Create one-dimensional data using series and perform various operations on it 
+library("methods")
+data <- c(1,2,3,4,5,6)
+
+cat("Data series",data, "\n")
+
+# mathematical operations
+cat("Sum: ", sum(data), "\n")
+cat("Product : ", prod(data), "\n")
+cat("Square Root : ", sqrt(data), "\n")
+cat("Exponential : ", exp(data), "\n")
+cat("Logarithm : ", log(data), "\n")
+
+# Statistical operations
+cat("Minimum : ", min(data), "\n")
+cat("Maximum : ", max(data), "\n")
+cat("Mean : ", mean(data), "\n")
+cat("Median : ", median(data), "\n")
+cat("Standard Deviation : ", sd(data), "\n")
+
+# Array manipulation
+cat("Sorted array : ", sort(data), "\n")
+cat("Reversed array : ", rev(data), "\n")
+cat("Unique value : ", unique(data), "\n")
+cat("Reshaped data 2X3" , "\n")
+matrix(data,nrow=2,ncol=3)
+cat("series to matrix conversion : ",matrix(data,nrow=2,ncol=3) ,"\n")
+
+cat("data series with element wise Addition : ", data + 2, "\n")
+cat("data series with element wise multiplication : ", data * 2, "\n")
+________________________________________________________________________________________________________
+________________________________________________________________________________________________________
+
+
+Data Frame:
+Data Frames are data displayed in a format as a table.
+on it.
+Data Frames can have different types of data inside it. While the first column can be
+character, the second and third can be numeric or logical. However, each column
+Different Operations in Data Frame:
+Code:
+should have the same type of data.
+Use the data.frame) function to crcate a data frame:
+C Accessing columns
+Accessing rows
+)
+Sum of columns
+Mean of rows
+Transposce
+
+Prac 2- Two dimensional data using dataframe and perform operations
+# Create Two-dimensional data with the help of data frames and perform different operations on it.
+
+# Load the necessary library for working with data frames
+library('dplyr')
+
+# Create a two-dimensional data frame
+data <- data.frame(
+  A = c(1, 2, 3, 4, 5),
+  B = c(6, 7, 8, 9, 10),
+  C = c(11, 12, 13, 14, 15)
+)
+
+cat("Data Frame:\n")
+print(data)
+
+# Accessing columns
+cat("Column A:\n")
+print(data$A)
+cat("Column B:\n")
+print(data$B)
+cat("Column C:\n")
+print(data$C)
+
+# Accessing rows
+cat("Row 1:\n")
+print(data[1,])
+
+
+# Sum of columns
+cat("Sum of Column A:", sum(data$A), "\n")
+cat("Sum of Column B:", sum(data$B), "\n")
+cat("Sum of Column C:", sum(data$C), "\n")
+
+# Mean of rows
+mean(as.numeric(data[1, ]))
+mean(as.numeric(data[2, ]))
+
+# Transpose the data frame
+transposed_data <- t(data)
+cat("Transposed Data Frame:\n")
+print(transposed_data)
+
+________________________________________________________________________________________________________
+________________________________________________________________________________________________________
+
+
+JSON:
+JSON (JavaScript Object Notation) is a
+lightweight data-interchange format. It is easy for
+humans to rcad and write. It is casy for machincs to parsc and gencratc. JSON is a text
+format that is completely language independent but uses conventions that are familiar to
+programmers of thc C-family oflanguagcs, including C, C++, C#, Java, JavaScript, Pcrl,
+Python, and many others. These properties make JSON an ideal data-interchange language.
+HTML:
+HTML stands for HyperText Markup Language. It creates a complete website structure of
+web pages. HTML is a
+combination of Hypertext and Markup language. Hypertext defines
+the link between the web pages and markup language defines the text document within the
+tag.
+XML:
+Extensible Markup Language (XML) is a markup language that provides rules to define any
+data. Unlike other programming languages, XML cannot perforn computing operations by
+itself
+
+Prac 3 - Read data from the
+different file formats like JSON, HTML, XML, and CSV files and
+check for missing data, outlier
+values and handle them.
+
+library(rjson)
+library(XML)
+
+# Read data from JSON file
+json_data <- fromJSON(file = "/home/subodh/Documents/subodh/Birla_college/sem3/Data_science_visualisation/Data_Visualization-main/Practical3/data.json")
+
+# Read data from HTML file
+html_data <- readHTMLTable("/home/subodh/Documents/subodh/Birla_college/sem3/Data_science_visualisation/Data_Visualization-main/Practical3/data.html")
+
+# Read data from XML file
+xml_data <- xmlParse("/home/subodh/Documents/subodh/Birla_college/sem3/Data_science_visualisation/Data_Visualization-main/Practical3/data.xml")
+xml_data <- xmlToList(xml_data)
+
+# Read data from CSV file
+csv_data <- read.csv("/home/subodh/Documents/subodh/Birla_college/sem3/Data_science_visualisation/Data_Visualization-main/Practical3/data.csv")
+
+# Check for missing data
+missing_data <- sapply(json_data, function(x) sum(is.na(x)))
+missing_data <- missing_data[missing_data > 0]
+
+# Check for outlier values
+outlier_data <- sapply(csv_data, function(x) sum(x < 0))
+outlier_data <- outlier_data[outlier_data > 0]
+
+# Handle missing data and outlier values
+json_data[is.na(json_data)] <- 0
+csv_data[csv_data < 0] <- 0
+
+# Print the data
+print(json_data)
+print(html_data)
+print(xml_data)
+print(csv_data)
+
+________________________________________________________________________________________________________
+________________________________________________________________________________________________________
+
+
+Pivoting data refers to the process ofreorganizing and reshaping data to analyze it from a
+different perspective. This transformation is often necessary to make the data more suitable
+for analysis, reporting, or visualization. The specific steps involved in pivoting data may vary
+depending on the tools or programming languages used, but the general idea is to convert
+data from a long format to a wide formnat or vice versa. Herc arc two common types of data
+pivoting:
+1. Wide to Long (Unpivoting):
+This type of pivoting involves transforming wide-format data into a
+long-format.
+2. Long to Wide (Pivoting):
+This type of pivoting involves transforming long-format data into a wide-format.
+
+Prac 4- Reshaping of hierarchical data and pivoting Dataframe data
+in R
+library(tidyverse)
+
+head(billboard)
+
+#pivot_longer(): Pivot data from wide to long
+billboard_long <- billboard |> 
+  pivot_longer(
+    cols = starts_with('wk'),
+    names_to = 'week',
+    values_to = 'rank'
+  )
+
+billboard_long
+
+#pivot_wider(): Pivot data from long to wide
+billboard_long |> 
+  pivot_wider(
+    names_from = week,
+    values_from = rank
+  )
+
+
+
+in PY
+# Practical 4 : Perform Reshaping of the hierarchical data and pivoting data frame data.
+import pandas as pd
+
+# hierarchical data frame
+data = pd.DataFrame({'Year': [2019, 2019, 2020, 2020],
+                     'Quarter': [1, 2, 1, 2],
+                     'Sales': [100, 200, 150, 250],
+                     'Expenses': [50, 75, 60, 90]})
+
+print("Original Data Frame:")
+print(data)
+
+# Perform reshaping of hierarchical data
+reshaped_data = data.set_index(['Year', 'Quarter'])
+print("Reshaped Data:")
+print(reshaped_data)
+
+# Perform pivoting of data frame
+pivoted_data = data.pivot(index='Year', columns='Quarter', values=['Sales', 'Expenses'])
+print("Pivoted Data:")
+print(pivoted_data)
